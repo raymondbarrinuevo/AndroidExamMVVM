@@ -6,8 +6,10 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.guidomia.db.Movie
 import com.example.guidomia.db.MovieRepository
+import com.example.guidomia.db.Result
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
+import retrofit2.Response
 
 class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
@@ -22,11 +24,15 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
     fun getAllMovies() {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = repository.getAllMovies()
+            val response: Response<Result> = repository.getAllMovies()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     viewModelScope.launch {
-                        repository.insert(filterMovies(response.body()!!.results))
+                        val count = repository.count()
+                        val featureMovieCount = filterMovies(response.body()!!.results).size
+                        if (count < featureMovieCount) {
+                            repository.insert(filterMovies(response.body()!!.results))
+                        }
                     }
                     loading.value = false
                 } else {

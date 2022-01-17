@@ -15,4 +15,10 @@ interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllData(movies: List<Movie>): List<Long>
+
+    @Query("SELECT COUNT(trackId) FROM movie_data_table")
+    suspend fun count(): Int
+
+
+
 }

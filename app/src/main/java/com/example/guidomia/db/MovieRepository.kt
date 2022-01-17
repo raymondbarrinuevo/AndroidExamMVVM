@@ -8,7 +8,12 @@ class MovieRepository(private val retrofitService: RetrofitService, private val 
 
     val movies = dao.getAll()
 
+    suspend fun count(): Int {
+        return dao.count()
+    }
+
     suspend fun insert(movies: List<Movie>): List<Long> {
         return dao.insertAllData(movies)
     }
+
 }
