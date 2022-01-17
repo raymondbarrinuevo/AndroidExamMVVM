@@ -16,7 +16,7 @@ MVVM this is my choice to learn more about it even if I am use to in using MVP
 UI and design:
 
 LinearLayout - the reason why I use because its easier to read
-Relativelayout - if only view will overlapping. for instance when I use ProgressBar in MainActivity
+Relativelayout - if only view is overlapping each other. for instance when I use ProgressBar in MainActivity
 
 
 
