@@ -25,7 +25,6 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
             val response = repository.getAllMovies()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
-                    movieList.postValue(filterMovies(response.body()!!.results))
                     viewModelScope.launch {
                         repository.insert(filterMovies(response.body()!!.results))
                     }
@@ -45,28 +44,12 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
             }
         }
         return movies
-    }
 
-//    fun getAll() {
-//        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-//            withContext(Dispatchers.Main) {
-//                repository.movies.collect {
-//                    if (it != null && it.isNotEmpty()) {
-//                        movieList.postValue(it)
-//                    }
-//                    loading.value = false
-//                }
-//            }
-//        }
-//
-//
-//
-//    }
+    }
 
     fun getAll() = liveData {
         repository.movies.collect {
             emit(it)
-            loading.value = false
         }
     }
 

@@ -2,12 +2,13 @@ package com.example.guidomia.db
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import android.provider.SyncStateContract.Helpers.update
+
+import android.provider.SyncStateContract.Helpers.insert
+
 
 @Dao
 interface MovieDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertData(movie: Movie): Long
 
     @Query("SELECT * FROM movie_data_table")
     fun getAll(): Flow<List<Movie>>

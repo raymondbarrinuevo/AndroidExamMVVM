@@ -51,16 +51,16 @@ class MainActivity : AppCompatActivity(), MovieAdapterInterface {
                 binding.progressDialog.visibility = View.VISIBLE
             } else {
                 binding.progressDialog.visibility = View.GONE
+                movieViewModel.getAll().observe(this, Observer {
+                    adapter.setList(it)
+                    adapter.notifyItemRangeChanged(0, it.size)
+                })
             }
         })
 
         lifecycleScope.launch {
             movieViewModel.getAllMovies()
         }
-
-//        movieViewModel.getAll().observe(this, Observer {
-//            adapter.setList(it)
-//        })
     }
 
 
